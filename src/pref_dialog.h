@@ -65,6 +65,7 @@ PrefsDialog *xa_create_prefs_dialog();
 void xa_prefs_adapt_options(PrefsDialog *);
 void xa_prefs_apply_options(PrefsDialog *);
 void xa_prefs_iconview_changed(GtkIconView *, PrefsDialog *);
+void xa_prefs_extract_same_folder_changed(GtkToggleButton *, PrefsDialog *);
 void xa_prefs_load_options(PrefsDialog *);
 void xa_prefs_save_options(PrefsDialog *, const char *);
 

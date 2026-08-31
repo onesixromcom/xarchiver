@@ -133,6 +133,12 @@ void xa_prefs_iconview_changed (GtkIconView *iconview, PrefsDialog *prefs_dialog
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(prefs_dialog->notebook), column);
 }
 
+void xa_prefs_extract_same_folder_changed(GtkToggleButton *toggle_button, PrefsDialog *prefs_dialog)
+{
+    gboolean is_checked = gtk_toggle_button_get_active(toggle_button);
+	gtk_widget_set_sensitive(prefs_dialog->preferred_extract_dir, !is_checked);
+}
+
 PrefsDialog *xa_create_prefs_dialog ()
 {
 	GTK_COMPAT_TOOLTIPS;
@@ -404,10 +410,11 @@ PrefsDialog *xa_create_prefs_dialog ()
 	gtk_combo_box_set_focus_on_click(GTK_COMBO_BOX(prefs_dialog->preferred_extract_dir), FALSE);
 	g_signal_connect(prefs_dialog->preferred_extract_dir, "changed", G_CALLBACK(xa_prefs_combo_changed), GUINT_TO_POINTER(1));
 
-	prefs_dialog->extract_same_folder = gtk_check_button_new_with_mnemonic(_("Extract same folder"));
+	prefs_dialog->extract_same_folder = gtk_check_button_new_with_mnemonic(_("To the archive directory"));
 	gtk_table_attach(GTK_TABLE(table), prefs_dialog->extract_same_folder,
-	                 0, 2, 7, 8, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 4);
+	                 1, 2, 7, 8, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 4);
 	gtk_button_set_focus_on_click(GTK_BUTTON(prefs_dialog->extract_same_folder), FALSE);
+	g_signal_connect(G_OBJECT(prefs_dialog->extract_same_folder), "toggled", G_CALLBACK(xa_prefs_extract_same_folder_changed), prefs_dialog);
 
 	prefs_dialog->save_geometry = gtk_check_button_new_with_mnemonic(_("Save window geometry"));
 	gtk_table_attach(GTK_TABLE(table), prefs_dialog->save_geometry,

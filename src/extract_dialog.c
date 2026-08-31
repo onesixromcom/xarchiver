@@ -536,9 +536,7 @@ void xa_set_extract_dialog_options (ExtractDialog *extract_dialog, gint selected
 		if (prefs_window->extract_same_folder)
 		{
 			gchar *dirname = g_path_get_dirname(archive->path[0]);
-
 			archive->destination_path = g_strdup_printf("%s", dirname);
-
 			g_free(dirname);
 		}
 		else
