@@ -533,6 +533,16 @@ void xa_set_extract_dialog_options (ExtractDialog *extract_dialog, gint selected
 
 	if (!archive->destination_path)
 	{
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(prefs_window->extract_same_dir)))
+		{
+			gchar *dirname_utf8 = g_path_get_dirname(archive->path[0]);
+			gchar *dirname = g_filename_display_name(dirname_utf8);
+			archive->destination_path = g_strdup(dirname);
+			g_free(dirname);
+			g_free(dirname_utf8);
+		}
+		else
+		{
 		gchar *archive_dir = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(prefs_window->preferred_extract_dir));
 
 		if (!archive_dir || !*archive_dir)
@@ -547,6 +557,7 @@ void xa_set_extract_dialog_options (ExtractDialog *extract_dialog, gint selected
 
 		archive->destination_path = g_strdup(archive_dir);
 		g_free(archive_dir);
+		}
 	}
 	gtk_entry_set_text(GTK_ENTRY(extract_dialog->destination_path_entry), archive->destination_path);
 	gtk_entry_set_text(GTK_ENTRY(extract_dialog->password_entry), archive->password ? archive->password : "");
